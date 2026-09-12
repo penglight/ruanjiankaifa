@@ -8,6 +8,9 @@ public class Product {
     private double retailPrice;
     private int stock;
 
+    public Product() {
+    }
+
     public Product(String productID, String name, String manufacture,
                    String productionDate, String model,
                    double primeCost, double retailPrice, int stock) {
@@ -19,9 +22,6 @@ public class Product {
         this.primeCost = primeCost;
         this.retailPrice = retailPrice;
         this.stock = stock;
-    }
-
-    public Product() {
     }
 
     public String getProductID() { return productID; }
