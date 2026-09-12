@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 public class Customer extends User{
     String ID;
@@ -11,9 +12,21 @@ public class Customer extends User{
     public void register(){
 
     }
-    public  boolean login(String username,String  password ){
-        Scanner input = new Scanner(System.in);
-
+    public  boolean login(String username,String  password,ShoppingSystem system ){
+        ArrayList<Customer> customerList = system.getCustomerList();
+        for(Customer temp : customerList){
+            if(temp.getUsername().equals(username)){
+                if(temp.getPassword().equals(password)){
+                    System.out.println("Welcome "+username);
+                    return true;
+                }else {
+                    System.out.println("Wrong password or username!");
+                    return false;
+                }
+            }
+        }
+        System.out.println("Wrong password or username!");
+         return false;
     }
     public   boolean changePassword(String newPassword){}
     public  void logout(){}

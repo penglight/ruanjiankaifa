@@ -8,12 +8,6 @@ public class Administrator extends User {
 
     @Override
     public boolean login(String name, String pwd) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Please enter your name:");
-        name = input.next();
-        input.nextLine();
-        System.out.println("Please enter your password:");
-        pwd = input.nextLine();
         if (username.equals(name) && password.equals(pwd)) {
             System.out.println("You are successfully logged in");
             return true;
