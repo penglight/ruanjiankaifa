@@ -155,9 +155,46 @@ public class Administrator extends User {
             listAllCustomers(system);
         } else {
             System.out.println("输入错误，请输入 name / id / listall");
-        }
+        }}
+    public void listAllProducts(ShoppingSystem system){
+            ArrayList<Product> productsList = system.getProductList();
+for (Product temp:productsList){
+    System.out.println("ID:"+temp.getProductID());
+    System.out.println("name"+temp.getName());
+    System.out.println("manufacture:"+temp.getManufacture());
+    System.out.println("productiondate:"+temp.getProductionDate());
+    System.out.println("model:"+temp.getModel());
+    System.out.println("primecost:"+temp.getPrimecost());
+    System.out.println("retailprice:"+temp.getRetailPrice());
+    System.out.println("stock:"+temp.getStock());}
+
+}
+    public boolean addProduct(ShoppingSystem system) {
+        Scanner sc = new Scanner(System.in);
 
 
+        System.out.println("Please enter the product ID:");
+        String id = sc.nextLine();
+
+        System.out.println("Please enter the product name:");
+        String name = sc.nextLine();
+
+        System.out.println("Please enter the manufacturer:");
+        String manufacturer = sc.nextLine();
+
+        System.out.println("Please enter the retail price:");
+        double retailPrice = sc.nextDouble();
+        sc.nextLine();
+
+
+        Product product = new Product();
+
+
+        ArrayList<Product> productsList = system.getProductList();
+        productsList.add(product);
+
+        System.out.println("Product added successfully!");
+        return true;
     }
             public void logout () {
             }
