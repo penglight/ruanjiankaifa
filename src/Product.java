@@ -21,13 +21,6 @@ public class Product {
         this.stock = stock;
     }
 
-    public Product(String productID, String name, String manufacture, double retailPrice) {
-        this.productID = productID;
-        this.name = name;
-        this.manufacture = manufacture;
-        this.retailPrice = retailPrice;
-    }
-
     public Product() {
     }
 

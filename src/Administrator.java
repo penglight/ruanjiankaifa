@@ -164,7 +164,7 @@ for (Product temp:productsList){
     System.out.println("manufacture:"+temp.getManufacture());
     System.out.println("productiondate:"+temp.getProductionDate());
     System.out.println("model:"+temp.getModel());
-    System.out.println("primecost:"+temp.getPrimecost());
+    System.out.println("primecost:"+temp.getPrimeCost());
     System.out.println("retailprice:"+temp.getRetailPrice());
     System.out.println("stock:"+temp.getStock());}
 
@@ -172,31 +172,126 @@ for (Product temp:productsList){
     public boolean addProduct(ShoppingSystem system) {
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("Please enter product ID:");
+        String productID = sc.nextLine();
 
-        System.out.println("Please enter the product ID:");
-        String id = sc.nextLine();
-
-        System.out.println("Please enter the product name:");
+        System.out.println("Please enter product name:");
         String name = sc.nextLine();
 
-        System.out.println("Please enter the manufacturer:");
-        String manufacturer = sc.nextLine();
+        System.out.println("Please enter manufacturer:");
+        String manufacture = sc.nextLine();
 
-        System.out.println("Please enter the retail price:");
+        System.out.println("Please enter production date:");
+        String productionDate = sc.nextLine();
+
+        System.out.println("Please enter model:");
+        String model = sc.nextLine();
+
+        System.out.println("Please enter prime cost:");
+        double primeCost = sc.nextDouble();
+
+        System.out.println("Please enter retail price:");
         double retailPrice = sc.nextDouble();
-        sc.nextLine();
 
+        System.out.println("Please enter stock:");
+        int stock = sc.nextInt();
 
-        Product product = new Product();
+        Product product = new Product(productID, name, manufacture,
+                productionDate, model,
+                primeCost, retailPrice, stock);
 
-
-        ArrayList<Product> productsList = system.getProductList();
-        productsList.add(product);
-
+        system.getProductList().add(product);
         System.out.println("Product added successfully!");
         return true;
     }
+
+    public boolean updateProduct(ShoppingSystem system) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter the product ID to update:");
+        String id = sc.nextLine();
+
+        ArrayList<Product> productList = system.getProductList();
+        for (Product p : productList) {
+            if (p.getProductID().equals(id)) {
+
+                System.out.println("Please enter new name:");
+                p.setName(sc.nextLine());
+                System.out.println("Please enter new manufacturer:");
+                p.setManufacture(sc.nextLine());
+                System.out.println("Please enter new production date:");
+                p.setProductionDate(sc.nextLine());
+                System.out.println("Please enter new model:");
+                p.setModel(sc.nextLine());
+                System.out.println("Please enter new prime cost:");
+                p.setPrimeCost(sc.nextDouble());
+                System.out.println("Please enter new retail price:");
+                p.setRetailPrice(sc.nextDouble());
+                System.out.println("Please enter new stock:");
+                p.setStock(sc.nextInt());
+
+                System.out.println("Product updated successfully!");
+                return true;
+            }
+        }
+        System.out.println("Product not found!");
+        return false;
+    }
+
+    public boolean deleteProduct(ShoppingSystem system) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter the product ID to delete:");
+        String id = sc.nextLine();
+
+        ArrayList<Product> productList = system.getProductList();
+        for (int i = 0; i < productList.size(); i++) {
+            Product p = productList.get(i);
+            if (p.getProductID().equals(id)) {
+                productList.remove(i);
+                System.out.println("Product deleted successfully!");
+                return true;
+            }
+        }
+        System.out.println("Product not found!");
+        return false;
+    }
+
+    public ArrayList<Product> findProducts(ShoppingSystem system,
+                                           String name,
+                                           String manufacture,
+                                           double minPrice,
+                                           double maxPrice) {
+        ArrayList<Product> result = new ArrayList<>();
+        ArrayList<Product> productList = system.getProductList();
+
+        for (Product p : productList) {
+            boolean match = true;
+
+            // 名称模糊匹配（不区分大小写）
+            if (name != null && !name.isEmpty()
+                    && !p.getName().toLowerCase().contains(name.toLowerCase())) {
+                match = false;
+            }
+            // 厂家匹配
+            if (manufacture != null && !manufacture.isEmpty()
+                    && !p.getManufacture().equals(manufacture)) {
+                match = false;
+            }
+            // 零售价区间
+            if (minPrice > 0 && p.getRetailPrice() < minPrice) {
+                match = false;
+            }
+            if (maxPrice > 0 && p.getRetailPrice() > maxPrice) {
+                match = false;
+            }
+
+            if (match) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
             public void logout () {
+        System.out.print("Successfully logged out");
             }
 }
 
