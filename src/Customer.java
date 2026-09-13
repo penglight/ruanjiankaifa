@@ -7,17 +7,36 @@ public class Customer extends User {
     private int costCount;
     private String phonenumber;
     private String mailBox;
-    private ArrayList<Product> cart;
-    private ArrayList<String> orders;
+    private ShoppingCart cart;
+    private ArrayList<Order> orders;
 
     public Customer(String customerId, String username, String password) {
         super(username, password);
         this.customerId = customerId;
         this.leve = "BRONZE";
-        this.registerTime = "2026-09-12";
+        this.registerTime = "2026-09-13";
         this.costCount = 0;
-        this.cart = new ArrayList<>();
+        this.cart = new ShoppingCart();
         this.orders = new ArrayList<>();
+    }
+
+    // 结账：把购物车转成订单，生成购物历史
+    public Order checkout(String paymentMethod) {
+        if (cart.isEmpty()) {
+            System.out.println("购物车为空，无法结账");
+            return null;
+        }
+        Order order = new Order("O" + System.currentTimeMillis(),
+                registerTime, paymentMethod);
+        for (CartItem ci : cart.getItems()) {
+            order.addItem(ci.getProduct(), ci.getQuantity(),
+                    ci.getProduct().getRetailPrice());
+        }
+        orders.add(order);
+        costCount++;
+        cart.clear();
+        System.out.println("结账成功，金额: " + order.getTotalAmount());
+        return order;
     }
 
     @Override
@@ -39,44 +58,9 @@ public class Customer extends User {
         System.out.println("已退出登录");
     }
 
-    // ===== 购物车 =====
-    public void addToCart(ShoppingSystem system, String productId, int qty) {
-        for (Product p : system.getProductList()) {
-            if (p.getProductID().equals(productId)) {
-                for (int i = 0; i < qty; i++) cart.add(p);
-                System.out.println("已加入购物车，数量 " + qty);
-                return;
-            }
-        }
-        System.out.println("商品不存在");
-    }
+    public ShoppingCart getCart() { return cart; }
+    public ArrayList<Order> getOrders() { return orders; }
 
-    public void showCart() {
-        if (cart.isEmpty()) { System.out.println("购物车为空"); return; }
-        double total = 0;
-        for (Product p : cart) {
-            System.out.println(p.getProductID() + " - " + p.getName() + " - " + p.getRetailPrice());
-            total += p.getRetailPrice();
-        }
-        System.out.println("合计: " + total);
-    }
-
-    public void checkout(ShoppingSystem system) {
-        if (cart.isEmpty()) { System.out.println("购物车为空，无法结账"); return; }
-        double total = 0;
-        for (Product p : cart) total += p.getRetailPrice();
-        orders.add("订单时间: " + registerTime + ", 金额: " + total + ", 商品数: " + cart.size());
-        costCount++;
-        cart.clear();
-        System.out.println("结账成功，金额: " + total);
-    }
-
-    public void showOrderHistory() {
-        if (orders.isEmpty()) { System.out.println("暂无购物历史"); return; }
-        for (String o : orders) System.out.println(o);
-    }
-
-    // ===== getter =====
     public String getCustomerID() { return customerId; }
     public String getLeve() { return leve; }
     public String getRegisterTime() { return registerTime; }

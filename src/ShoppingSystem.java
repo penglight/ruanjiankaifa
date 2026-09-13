@@ -153,6 +153,7 @@ public class ShoppingSystem {
     }
 
     // ==================== 客户菜单 ====================
+    // 客户菜单：加入购物车、查看购物车、结账、历史
     private void customerMenu(Customer cur) {
         while (true) {
             System.out.println("\n===== 客户菜单 =====");
@@ -174,13 +175,18 @@ public class ShoppingSystem {
                 String pid = sc.nextLine();
                 System.out.print("请输入数量: ");
                 int qty = sc.nextInt(); sc.nextLine();
-                cur.addToCart(this, pid, qty);
+                Product prod = findProduct(pid);
+                if (prod != null) {
+                    cur.getCart().addItem(prod, qty);
+                } else {
+                    System.out.println("商品不存在");
+                }
             } else if (choice == 3) {
-                cur.showCart();
+                cur.getCart().showCart();
             } else if (choice == 4) {
-                cur.checkout(this);
+                checkoutMenu(cur);
             } else if (choice == 5) {
-                cur.showOrderHistory();
+                showOrders(cur);
             } else if (choice == 6) {
                 System.out.print("新密码: ");
                 String newPwd = sc.nextLine();
@@ -193,8 +199,34 @@ public class ShoppingSystem {
             }
         }
     }
-
     // ==================== 顾客相关菜单 ====================
+
+    private Product findProduct(String pid) {
+        for (Product p : productsList) {
+            if (p.getProductID().equals(pid)) return p;
+        }
+        return null;
+    }
+
+
+    private void checkoutMenu(Customer cur) {
+        System.out.println("请选择支付方式: 1.支付宝 2.微信 3.银行卡");
+        int pay = sc.nextInt(); sc.nextLine();
+        String method = (pay == 1) ? "支付宝" : (pay == 2) ? "微信" : "银行卡";
+        cur.checkout(method);
+    }
+
+
+    private void showOrders(Customer cur) {
+        if (cur.getOrders().isEmpty()) {
+            System.out.println("暂无购物历史");
+            return;
+        }
+        for (Order o : cur.getOrders()) {
+            o.showOrder();
+        }
+    }
+
     private void addCustomerMenu() {
         System.out.print("ID: "); String id = sc.nextLine();
         System.out.print("用户名: "); String uname = sc.nextLine();
