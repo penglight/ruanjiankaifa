@@ -52,7 +52,7 @@ public class ShoppingSystem {
         }
     }
 
-    // ==================== 管理员登录（首登强制改凭据）====================
+    // ==================== 管理员登录 ====================
     private void adminLogin() {
         System.out.print("用户名: ");
         String name = sc.nextLine();
@@ -86,7 +86,7 @@ public class ShoppingSystem {
 
         Customer cur = findCustomer(name, pwd);
         if (cur != null) {
-            customerMenu(cur);
+            customerMenu(cur);   // 传当前登录的顾客
         }
     }
 
@@ -152,17 +152,18 @@ public class ShoppingSystem {
         }
     }
 
-    // ==================== 客户菜单 ====================
-    // 客户菜单：加入购物车、查看购物车、结账、历史
+    // ==================== 客户菜单（带参数 cur，且正常闭合）====================
     private void customerMenu(Customer cur) {
         while (true) {
             System.out.println("\n===== 客户菜单 =====");
             System.out.println("1. 浏览所有商品");
             System.out.println("2. 加入购物车");
             System.out.println("3. 查看购物车");
-            System.out.println("4. 结账");
-            System.out.println("5. 查看购物历史");
-            System.out.println("6. 修改密码");
+            System.out.println("4. 修改购物车商品数量");
+            System.out.println("5. 移除购物车商品");
+            System.out.println("6. 结账");
+            System.out.println("7. 查看购物历史");
+            System.out.println("8. 修改密码");
             System.out.println("0. 退出登录");
             System.out.print("请选择: ");
             int choice = sc.nextInt();
@@ -174,7 +175,8 @@ public class ShoppingSystem {
                 System.out.print("请输入商品ID: ");
                 String pid = sc.nextLine();
                 System.out.print("请输入数量: ");
-                int qty = sc.nextInt(); sc.nextLine();
+                int qty = sc.nextInt();
+                sc.nextLine();
                 Product prod = findProduct(pid);
                 if (prod != null) {
                     cur.getCart().addItem(prod, qty);
@@ -184,10 +186,21 @@ public class ShoppingSystem {
             } else if (choice == 3) {
                 cur.getCart().showCart();
             } else if (choice == 4) {
-                checkoutMenu(cur);
+                System.out.print("商品ID: ");
+                String pid = sc.nextLine();
+                System.out.print("新数量: ");
+                int qty = sc.nextInt();
+                sc.nextLine();
+                cur.getCart().updateQuantity(pid, qty);
             } else if (choice == 5) {
-                showOrders(cur);
+                System.out.print("商品ID: ");
+                String pid = sc.nextLine();
+                cur.getCart().removeItem(pid);
             } else if (choice == 6) {
+                checkoutMenu(cur);
+            } else if (choice == 7) {
+                showOrders(cur);
+            } else if (choice == 8) {
                 System.out.print("新密码: ");
                 String newPwd = sc.nextLine();
                 cur.changePassword(newPwd);
@@ -199,8 +212,8 @@ public class ShoppingSystem {
             }
         }
     }
-    // ==================== 顾客相关菜单 ====================
 
+    // ==================== 顾客相关菜单（平级方法，不在customerMenu内）====================
     private Product findProduct(String pid) {
         for (Product p : productsList) {
             if (p.getProductID().equals(pid)) return p;
@@ -208,14 +221,13 @@ public class ShoppingSystem {
         return null;
     }
 
-
     private void checkoutMenu(Customer cur) {
         System.out.println("请选择支付方式: 1.支付宝 2.微信 3.银行卡");
-        int pay = sc.nextInt(); sc.nextLine();
+        int pay = sc.nextInt();
+        sc.nextLine();
         String method = (pay == 1) ? "支付宝" : (pay == 2) ? "微信" : "银行卡";
         cur.checkout(method);
     }
-
 
     private void showOrders(Customer cur) {
         if (cur.getOrders().isEmpty()) {
@@ -228,30 +240,38 @@ public class ShoppingSystem {
     }
 
     private void addCustomerMenu() {
-        System.out.print("ID: "); String id = sc.nextLine();
-        System.out.print("用户名: "); String uname = sc.nextLine();
-        System.out.print("密码: "); String pwd = sc.nextLine();
+        System.out.print("ID: ");
+        String id = sc.nextLine();
+        System.out.print("用户名: ");
+        String uname = sc.nextLine();
+        System.out.print("密码: ");
+        String pwd = sc.nextLine();
         admin.addCustomer(this, new Customer(id, uname, pwd));
     }
 
     private void resetPwdMenu() {
-        System.out.print("顾客ID: "); String id = sc.nextLine();
-        System.out.print("新密码: "); String pwd = sc.nextLine();
+        System.out.print("顾客ID: ");
+        String id = sc.nextLine();
+        System.out.print("新密码: ");
+        String pwd = sc.nextLine();
         admin.ReCustomerPassword(this, id, pwd);
     }
 
     private void deleteCustomerMenu() {
-        System.out.print("顾客ID: "); String id = sc.nextLine();
+        System.out.print("顾客ID: ");
+        String id = sc.nextLine();
         admin.deleteCustomer(this, id);
     }
 
     private void findCustomerByIdMenu() {
-        System.out.print("顾客ID: "); String id = sc.nextLine();
+        System.out.print("顾客ID: ");
+        String id = sc.nextLine();
         admin.findCustomerById(this, id);
     }
 
     private void findCustomerByNameMenu() {
-        System.out.print("顾客姓名: "); String name = sc.nextLine();
+        System.out.print("顾客姓名: ");
+        String name = sc.nextLine();
         admin.findCustomerByName(this, name);
     }
 

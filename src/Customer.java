@@ -20,14 +20,14 @@ public class Customer extends User {
         this.orders = new ArrayList<>();
     }
 
-    // 结账：把购物车转成订单，生成购物历史
+
     public Order checkout(String paymentMethod) {
         if (cart.isEmpty()) {
             System.out.println("购物车为空，无法结账");
             return null;
         }
         Order order = new Order("O" + System.currentTimeMillis(),
-                registerTime, paymentMethod);
+                 java.time.LocalDateTime.now().toString(), paymentMethod);
         for (CartItem ci : cart.getItems()) {
             order.addItem(ci.getProduct(), ci.getQuantity(),
                     ci.getProduct().getRetailPrice());

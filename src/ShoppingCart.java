@@ -48,5 +48,35 @@ public class ShoppingCart {
     public void clear() {
         items.clear();
     }
+
+    public void updateQuantity(String productId, int newQuantity) {
+        for (CartItem ci : items) {
+            if (ci.getProduct().getProductID().equals(productId)) {
+                if (newQuantity <= 0) {
+
+                    items.remove(ci);
+                    System.out.println("已移除 " + productId);
+                } else {
+                    ci.setQuantity(newQuantity);
+                    System.out.println(productId + " 数量已改为 " + newQuantity);
+                }
+                return;
+            }
+        }
+        System.out.println("购物车中没有该商品");
+    }
+
+
+    public void removeItem(String productId) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getProduct().getProductID().equals(productId)) {
+                items.remove(i);
+                System.out.println("已从购物车移除 " + productId);
+                return;
+            }
+        }
+        System.out.println("购物车中没有该商品");
+    }
+
 }
 
