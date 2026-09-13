@@ -42,12 +42,19 @@ public class Administrator extends User {
         return firstLogin;
     }
 
-    public void forceChangeCredentials(String newUsername, String newPassword) {
+
+    public boolean forceChangeCredentials(String newUsername, String newPassword) {
+        if (newPassword.equals(getPassword())) {
+            System.out.println("新密码不能与原密码一致，请重新输入！");
+            return false;   // 不修改，让调用方重新输入
+        }
         setUsername(newUsername);
         setPassword(newPassword);
         firstLogin = false;
         System.out.println("Initial credentials changed successfully!");
+        return true;
     }
+
 
     // ==================== 顾客管理 ====================
 

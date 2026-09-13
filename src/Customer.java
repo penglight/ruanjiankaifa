@@ -10,11 +10,11 @@ public class Customer extends User {
     private ShoppingCart cart;
     private ArrayList<Order> orders;
 
-    public Customer(String customerId, String username, String password) {
+    public Customer(String customerId, String username, String password,String registerTime) {
         super(username, password);
         this.customerId = customerId;
         this.leve = "BRONZE";
-        this.registerTime = "2026-09-13";
+        this.registerTime = registerTime;
         this.costCount = 0;
         this.cart = new ShoppingCart();
         this.orders = new ArrayList<>();

@@ -69,13 +69,21 @@ public class ShoppingSystem {
 
     private void forceChangeAdmin() {
         System.out.println("首次登录，必须修改初始用户名和密码！");
-        System.out.print("请输入新用户名: ");
-        String newName = sc.nextLine();
-        System.out.print("请输入新密码: ");
-        String newPwd = sc.nextLine();
-        admin.forceChangeCredentials(newName, newPwd);
-        System.out.println("请记住新用户名和密码。");
+
+        while (true) {
+            System.out.print("请输入新用户名: ");
+            String newName = sc.nextLine();
+            System.out.print("请输入新密码: ");
+            String newPwd = sc.nextLine();
+
+            if (admin.forceChangeCredentials(newName, newPwd)) {
+                System.out.println("修改成功，请记住新用户名和密码。");
+                break;
+            }
+
+        }
     }
+
 
     // ==================== 客户登录 / 注册 ====================
     private void customerLogin() {
@@ -86,7 +94,7 @@ public class ShoppingSystem {
 
         Customer cur = findCustomer(name, pwd);
         if (cur != null) {
-            customerMenu(cur);   // 传当前登录的顾客
+            customerMenu(cur);
         }
     }
 
@@ -108,7 +116,7 @@ public class ShoppingSystem {
         String name = sc.nextLine();
         System.out.print("请输入密码: ");
         String pwd = sc.nextLine();
-        customerList.add(new Customer(id, name, pwd));
+        customerList.add(new Customer(id, name, pwd,java.time.LocalDateTime.now().toString()));
         System.out.println("注册成功！请登录。");
     }
 
@@ -246,7 +254,7 @@ public class ShoppingSystem {
         String uname = sc.nextLine();
         System.out.print("密码: ");
         String pwd = sc.nextLine();
-        admin.addCustomer(this, new Customer(id, uname, pwd));
+        admin.addCustomer(this, new Customer(id, uname, pwd,java.time.LocalDateTime.now().toString()));
     }
 
     private void resetPwdMenu() {
