@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Customer extends User {
+
+public class Customer extends User implements Serializable {
     private String customerId;
     private String leve;
     private String registerTime;
@@ -57,6 +59,13 @@ public class Customer extends User {
     public void logout() {
         System.out.println("已退出登录");
     }
+
+    public void setLeve(String leve) { this.leve = leve; }
+    public void setRegisterTime(String registerTime) { this.registerTime = registerTime; }
+    public void setCostCount(int costCount) { this.costCount = costCount; }
+    public void setPhonenumber(String phonenumber) { this.phonenumber = phonenumber; }
+    public void setMailBox(String mailBox) { this.mailBox = mailBox; }
+
 
     public ShoppingCart getCart() { return cart; }
     public ArrayList<Order> getOrders() { return orders; }

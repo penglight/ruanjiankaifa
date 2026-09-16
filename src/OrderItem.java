@@ -1,4 +1,6 @@
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable{
     private Product product;
     private int quantity;
     private double unitPrice;   // 购买时的单价快照

@@ -1,12 +1,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+
+
 public class ShoppingSystem {
     private ArrayList<Customer> customerList;
     private ArrayList<Product> productsList;
 
     private Administrator admin = new Administrator();
     private Scanner sc = new Scanner(System.in);
+    private TextPersistence persistence = new TextPersistence();   // v1 //BinaryPersistence(): //v2
+
 
     public ShoppingSystem() {
         customerList = new ArrayList<>();
@@ -22,6 +27,7 @@ public class ShoppingSystem {
     // ==================== 程序入口 ====================
     public static void main(String[] args) {
         ShoppingSystem system = new ShoppingSystem();
+        system.loadData();
         system.showMainMenu();
     }
 
@@ -44,9 +50,10 @@ public class ShoppingSystem {
             } else if (choice == 3) {
                 customerRegister();
             } else if (choice == 0) {
+                saveData();
                 System.out.println("再见！");
                 return;
-            } else {
+            }{
                 System.out.println("无效选项");
             }
         }
@@ -336,4 +343,15 @@ public class ShoppingSystem {
         System.out.print("新密码: "); String pwd = sc.nextLine();
         admin.changePassword(pwd);
     }
+    // 文本
+    private void loadData() {
+        persistence.load(customerList, productsList);
+        System.out.println("恢复：顾客 " + customerList.size() + " 个，商品 " + productsList.size() + " 个");
+    }
+
+
+    private void saveData() {
+        persistence.save(customerList, productsList);
+    }
+
 }

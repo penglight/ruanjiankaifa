@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class ShoppingCart {
+
+public class ShoppingCart implements Serializable{
     private ArrayList<CartItem> items;
 
     public ShoppingCart() {

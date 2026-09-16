@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Order {
+
+public class Order implements Serializable{
     private String orderId;
     private String orderTime;
     private double totalAmount;

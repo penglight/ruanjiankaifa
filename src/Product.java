@@ -1,4 +1,6 @@
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable{
     private String name;
     private String productID;
     private String manufacture;
@@ -8,7 +10,7 @@ public class Product {
     private double retailPrice;
     private int stock;
 
-    public Product() {
+    public Product  () {
     }
 
     public Product(String productID, String name, String manufacture,
