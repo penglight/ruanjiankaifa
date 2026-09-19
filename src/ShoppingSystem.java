@@ -25,11 +25,11 @@ public class ShoppingSystem {
     public void addProduct(Product p) { productsList.add(p); }
 
     // ==================== 程序入口 ====================
-    public static void main(String[] args) {
-        ShoppingSystem system = new ShoppingSystem();
-        system.loadData();
-        system.showMainMenu();
+    public void run() {
+        loadData();        // 启动时读回数据
+        showMainMenu();    // 显示主菜单
     }
+
 
     // ==================== 主菜单：选择角色 ====================
     private void showMainMenu() {
