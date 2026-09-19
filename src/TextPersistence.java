@@ -56,12 +56,14 @@ public class TextPersistence {
                             Double.parseDouble(d[5]), Double.parseDouble(d[6]),
                             Integer.parseInt(d[7])));
                 } else if (section.equals("CUSTOMER") && d.length == 8) {
-                    Customer c = new Customer(d[0], d[1], PasswordUtil.decrypt(d[2]),d[4]);
+                    Customer c = new Customer(d[0], d[1], PasswordUtil.decrypt(d[2]),
+                            d[4], d[6], d[7]);
                     c.setLeve(d[3]);
                     c.setCostCount(Integer.parseInt(d[5]));
-                    c.setPhonenumber(d[6]);
-                    c.setMailBox(d[7]);
+                    c.setTotalSpent(Double.parseDouble(d[8]));
+                    c.checkLevelUp();
                     customers.add(c);
+
                 }
             }
             reader.close();
