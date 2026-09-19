@@ -10,7 +10,7 @@ public class ShoppingSystem {
 
     private Administrator admin = new Administrator();
     private Scanner sc = new Scanner(System.in);
-    private TextPersistence persistence = new TextPersistence();   // v1 //BinaryPersistence(): //v2
+    private TextPersistence persistence = new TextPersistence();   // v1 //BinaryPersistence(); v2 //ExcelPersistence(); v3//
 
 
     public ShoppingSystem() {
