@@ -5,7 +5,7 @@ public class Administrator extends User {
     private boolean firstLogin = true;
 
     public Administrator() {
-        super("admin", "yninfo#777");
+        super("admin", "ynuinfo#777");
     }
 
     @Override

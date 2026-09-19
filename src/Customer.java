@@ -13,15 +13,16 @@ public class Customer extends User implements Serializable {
     private ArrayList<Order> orders;
     private double totalSpent;
 
-    public Customer(String customerId, String username, String password,String registerTime) {
+    public Customer(String customerId, String username, String password,
+                    String registerTime, String phonenumber, String mailBox) {
         super(username, password);
         this.customerId = customerId;
-        this.leve = "BRONZE";
         this.registerTime = registerTime;
-        this.costCount = 0;
-        this.cart = new ShoppingCart();
-        this.orders = new ArrayList<>();
+        this.phonenumber = phonenumber;
+        this.mailBox = mailBox;
+        this.leve = "BRONZE";
         this.totalSpent = 0;
+        this.costCount = 0;
     }
 
 
@@ -86,8 +87,7 @@ public class Customer extends User implements Serializable {
     public void setLeve(String leve) { this.leve = leve; }
     public void setRegisterTime(String registerTime) { this.registerTime = registerTime; }
     public void setCostCount(int costCount) { this.costCount = costCount; }
-    public void setPhonenumber(String phonenumber) { this.phonenumber = phonenumber; }
-    public void setMailBox(String mailBox) { this.mailBox = mailBox; }
+
 
 
     public ShoppingCart getCart() { return cart; }

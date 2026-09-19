@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-
-
 public class ShoppingSystem {
     private ArrayList<Customer> customerList;
     private ArrayList<Product> productsList;
@@ -117,14 +114,21 @@ public class ShoppingSystem {
     }
 
     private void customerRegister() {
-        System.out.print("请输入顾客ID: ");
-        String id = sc.nextLine();
         System.out.print("请输入用户名: ");
         String name = sc.nextLine();
+        if (!InputValidator.isValidUsername(name)) return;
         System.out.print("请输入密码: ");
         String pwd = sc.nextLine();
+        if (!InputValidator.isValidPassword(pwd)) return;
+        System.out.println("请输入电话号码：");
+        String phone = sc.nextLine();
+        if (!InputValidator.isValidPhone(phone)) return;
+        System.out.println("请输入邮箱：");
+        String email = sc.nextLine();
+        if (!InputValidator.isValidEmail(email)) return;
 
 
+        // 检查用户名是否已存在
         boolean exists = false;
         for (Customer c : customerList) {
             if (c.getUsername().equals(name)) {
@@ -137,9 +141,13 @@ public class ShoppingSystem {
             return;
         }
 
-        customerList.add(new Customer(id, name, pwd, java.time.LocalDateTime.now().toString()));
-        System.out.println("注册成功！请登录。");
+        // 自动生成顾客ID（用时间戳，保证唯一）
+        String id = "C" + System.currentTimeMillis();
+
+        customerList.add(new Customer(id, name, pwd, java.time.LocalDateTime.now().toString(),phone,email));
+        System.out.println("注册成功！您的ID是：" + id + "，请登录。");
     }
+
 
 
     // ==================== 管理员菜单 ====================
@@ -270,14 +278,25 @@ public class ShoppingSystem {
     }
 
     private void addCustomerMenu() {
-        System.out.print("ID: ");
-        String id = sc.nextLine();
         System.out.print("用户名: ");
         String uname = sc.nextLine();
+        if (!InputValidator.isValidUsername(uname)) return;
         System.out.print("密码: ");
         String pwd = sc.nextLine();
-        admin.addCustomer(this, new Customer(id, uname, pwd,java.time.LocalDateTime.now().toString()));
+        if (!InputValidator.isValidPassword(pwd)) return;
+        System.out.println("请输入电话号码：");
+        String phone = sc.nextLine();
+        if (!InputValidator.isValidPhone(phone)) return;
+        System.out.println("请输入邮箱：");
+        String email = sc.nextLine();
+        if (!InputValidator.isValidEmail(email)) return;
+
+        String id = "C" + System.currentTimeMillis();
+
+        admin.addCustomer(this, new Customer(id, uname, pwd, java.time.LocalDateTime.now().toString(),phone,email));
+        System.out.println("添加成功！顾客ID：" + id);
     }
+
 
     private void resetPwdMenu() {
         System.out.print("顾客ID: ");
@@ -308,6 +327,20 @@ public class ShoppingSystem {
     // ==================== 商品相关菜单 ====================
     private void addProductMenu() {
         System.out.print("ID: "); String id = sc.nextLine();
+        if (!InputValidator.isValidProductId(id)) return;
+        // 检查商品ID是否已存在
+        boolean exists = false;
+        for (Product p : productsList) {
+            if (p.getProductID().equals(id)) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
+            System.out.println("该商品ID已存在！");
+            return;
+        }
+
         System.out.print("名称: "); String name = sc.nextLine();
         System.out.print("厂家: "); String mf = sc.nextLine();
         System.out.print("生产日期: "); String date = sc.nextLine();
