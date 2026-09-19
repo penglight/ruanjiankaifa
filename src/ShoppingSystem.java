@@ -123,9 +123,24 @@ public class ShoppingSystem {
         String name = sc.nextLine();
         System.out.print("请输入密码: ");
         String pwd = sc.nextLine();
-        customerList.add(new Customer(id, name, pwd,java.time.LocalDateTime.now().toString()));
+
+
+        boolean exists = false;
+        for (Customer c : customerList) {
+            if (c.getUsername().equals(name)) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
+            System.out.println("该用户名已被注册！");
+            return;
+        }
+
+        customerList.add(new Customer(id, name, pwd, java.time.LocalDateTime.now().toString()));
         System.out.println("注册成功！请登录。");
     }
+
 
     // ==================== 管理员菜单 ====================
     private void adminMenu() {

@@ -11,6 +11,7 @@ public class Customer extends User implements Serializable {
     private String mailBox;
     private ShoppingCart cart;
     private ArrayList<Order> orders;
+    private double totalSpent;
 
     public Customer(String customerId, String username, String password,String registerTime) {
         super(username, password);
@@ -20,6 +21,7 @@ public class Customer extends User implements Serializable {
         this.costCount = 0;
         this.cart = new ShoppingCart();
         this.orders = new ArrayList<>();
+        this.totalSpent = 0;
     }
 
 
@@ -29,17 +31,25 @@ public class Customer extends User implements Serializable {
             return null;
         }
         Order order = new Order("O" + System.currentTimeMillis(),
-                 java.time.LocalDateTime.now().toString(), paymentMethod);
+                java.time.LocalDateTime.now().toString(), paymentMethod);
         for (CartItem ci : cart.getItems()) {
             order.addItem(ci.getProduct(), ci.getQuantity(),
                     ci.getProduct().getRetailPrice());
         }
         orders.add(order);
         costCount++;
+
+        // ===== 新增：累计消费 + 自动升级 =====
+        totalSpent += order.getTotalAmount();   // 累计本次消费金额
+        checkLevelUp();                          // 自动判断是否升级
+        // ====================================
+
         cart.clear();
         System.out.println("结账成功，金额: " + order.getTotalAmount());
+        System.out.println("当前累计消费: " + totalSpent + "，当前等级: " + leve);
         return order;
     }
+
 
     @Override
     public boolean login(String username, String password) {
@@ -54,6 +64,19 @@ public class Customer extends User implements Serializable {
         System.out.println("密码修改成功");
         return true;
     }
+
+    public void checkLevelUp() {
+        if (totalSpent >= 10000) {
+            setLeve("PLATINUM");
+        } else if (totalSpent >= 5000) {
+            setLeve("GOLD");
+        } else if (totalSpent >= 1000) {
+            setLeve("SILVER");
+        } else {
+            setLeve("BRONZE");
+        }
+    }
+
 
     @Override
     public void logout() {
@@ -76,4 +99,6 @@ public class Customer extends User implements Serializable {
     public int getCostCount() { return costCount; }
     public String getPhonenumber() { return phonenumber; }
     public String getMailBox() { return mailBox; }
+    public double getTotalSpent() { return totalSpent; }
+    public void setTotalSpent(double totalSpent) { this.totalSpent = totalSpent; }
 }
