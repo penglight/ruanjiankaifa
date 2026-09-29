@@ -21,6 +21,21 @@ public class ShoppingSystem {
     public void addCustomer(Customer c) { customerList.add(c); }
     public void addProduct(Product p) { productsList.add(p); }
 
+    private int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextInt()) {
+                int choice = sc.nextInt();
+                sc.nextLine();
+                return choice;
+            } else {
+                System.out.println("请输入数字！");
+                sc.nextLine();   // 清掉错误输入
+            }
+        }
+    }
+
+
     // ==================== 程序入口 ====================
     public void run() {
         loadData();        // 启动时读回数据
@@ -36,9 +51,7 @@ public class ShoppingSystem {
             System.out.println("2. 客户登录");
             System.out.println("3. 客户注册");
             System.out.println("0. 退出");
-            System.out.print("请选择: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = readInt("请选择: ");
 
             if (choice == 1) {
                 adminLogin();
@@ -77,8 +90,10 @@ public class ShoppingSystem {
         while (true) {
             System.out.print("请输入新用户名: ");
             String newName = sc.nextLine();
+            if (!InputValidator.isValidUsername(newName)) continue;
             System.out.print("请输入新密码: ");
             String newPwd = sc.nextLine();
+            if (!InputValidator.isValidPassword(newPwd)) continue;
 
             if (admin.forceChangeCredentials(newName, newPwd)) {
                 System.out.println("修改成功，请记住新用户名和密码。");
@@ -167,9 +182,7 @@ public class ShoppingSystem {
             System.out.println("11. 组合查询商品");
             System.out.println("12. 修改管理员密码");
             System.out.println("0. 退出");
-            System.out.print("请选择: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = readInt("请选择: ");
 
             switch (choice) {
                 case 1: addCustomerMenu(); break;
@@ -203,9 +216,7 @@ public class ShoppingSystem {
             System.out.println("7. 查看购物历史");
             System.out.println("8. 修改密码");
             System.out.println("0. 退出登录");
-            System.out.print("请选择: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = readInt("请选择: ");
 
             if (choice == 1) {
                 admin.listAllProducts(this);

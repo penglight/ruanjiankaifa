@@ -106,11 +106,10 @@ public class ExcelPersistence implements DataPersistence {
                     String phone = row.getCell(6).getStringCellValue();
                     String mail = row.getCell(7).getStringCellValue();
 
-                    Customer c = new Customer(id, name, pwd, time);
+
+                    Customer c = new Customer(id, name, pwd,time,phone,mail);
                     c.setLeve(leve);
                     c.setCostCount(cost);
-                    c.setPhonenumber(phone);
-                    c.setMailBox(mail);
                     result.addCustomer(c);
                 }
             }
