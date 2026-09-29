@@ -5,7 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TextPersistence {
+public class TextPersistence implements DataPersistence {   // ✅
+
     private static final String FILE = "data.txt";
 
 
@@ -42,7 +43,9 @@ public class TextPersistence {
     }
 
 
-    public void load(ArrayList<Customer> customers, ArrayList<Product> products) {
+    @Override
+    public LoadResult load() {
+        LoadResult result = new LoadResult();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(FILE));
             String line;
@@ -53,7 +56,7 @@ public class TextPersistence {
 
                 String[] d = line.split(",", -1);
                 if (section.equals("PRODUCT") && d.length == 8) {
-                    products.add(new Product(d[0], d[1], d[2], d[3], d[4],
+                    result.addProduct(new Product(d[0], d[1], d[2], d[3], d[4],
                             Double.parseDouble(d[5]), Double.parseDouble(d[6]),
                             Integer.parseInt(d[7])));
                 } else if (section.equals("CUSTOMER") && d.length == 9) {
@@ -63,15 +66,14 @@ public class TextPersistence {
                     c.setCostCount(Integer.parseInt(d[5]));
                     c.setTotalSpent(Double.parseDouble(d[8]));
                     c.checkLevelUp();
-                    customers.add(c);
-
+                    result.addCustomer(c);
                 }
             }
             reader.close();
-            System.out.println("已从文件读回数据");
         } catch (IOException e) {
 
         }
+        return result;
     }
 
 

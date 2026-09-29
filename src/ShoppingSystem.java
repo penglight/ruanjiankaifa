@@ -7,7 +7,8 @@ public class ShoppingSystem {
 
     private Administrator admin = new Administrator();
     private Scanner sc = new Scanner(System.in);
-    private TextPersistence persistence = new TextPersistence();   // v1 //BinaryPersistence(); v2 //ExcelPersistence(); v3//SQLitePersistence v4
+    private  DataPersistence persistence = new BinaryPersistence();   // V2
+    //ExcelPersistence(); v3//SQLitePersistence v4
 
 
     public ShoppingSystem() {
@@ -404,9 +405,16 @@ public class ShoppingSystem {
     }
     // 文本
     private void loadData() {
-        persistence.load(customerList, productsList);
-        System.out.println("恢复：顾客 " + customerList.size() + " 个，商品 " + productsList.size() + " 个");
+        LoadResult result = persistence.load();
+        if (result.hasData()) {
+            customerList.clear();
+            productsList.clear();
+            customerList.addAll(result.getCustomers());
+            productsList.addAll(result.getProducts());
+            System.out.println("恢复: 顾客 " + customerList.size() + " 个, 商品 " + productsList.size() + " 个");
+        }
     }
+
 
 
     private void saveData() {
