@@ -404,9 +404,16 @@ public class ShoppingSystem {
     }
     // 文本
     private void loadData() {
-        persistence.load(customerList, productsList);
-        System.out.println("恢复：顾客 " + customerList.size() + " 个，商品 " + productsList.size() + " 个");
+        LoadResult result = persistence.load();
+        if (result.hasData()) {
+            customerList.clear();
+            productsList.clear();
+            customerList.addAll(result.getCustomers());
+            productsList.addAll(result.getProducts());
+            System.out.println("恢复: 顾客 " + customerList.size() + " 个, 商品 " + productsList.size() + " 个");
+        }
     }
+
 
 
     private void saveData() {
