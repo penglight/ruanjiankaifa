@@ -23,6 +23,8 @@ public class Customer extends User implements Serializable {
         this.leve = "BRONZE";
         this.totalSpent = 0;
         this.costCount = 0;
+        this.cart = new ShoppingCart();
+        this.orders = new ArrayList<>();
     }
 
 
@@ -87,6 +89,7 @@ public class Customer extends User implements Serializable {
     public void setLeve(String leve) { this.leve = leve; }
     public void setRegisterTime(String registerTime) { this.registerTime = registerTime; }
     public void setCostCount(int costCount) { this.costCount = costCount; }
+    public void setTotalSpent(double totalSpent) { this.totalSpent = totalSpent; }
 
 
 
@@ -100,5 +103,5 @@ public class Customer extends User implements Serializable {
     public String getPhonenumber() { return phonenumber; }
     public String getMailBox() { return mailBox; }
     public double getTotalSpent() { return totalSpent; }
-    public void setTotalSpent(double totalSpent) { this.totalSpent = totalSpent; }
+
 }

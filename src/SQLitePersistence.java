@@ -119,11 +119,9 @@ public class SQLitePersistence implements DataPersistence {
                 String phone = rs.getString("phonenumber");
                 String mail = rs.getString("mailBox");
 
-                Customer c = new Customer(id, name, pwd, time);
+                Customer c = new Customer(id, name, pwd,time,phone,mail);
                 c.setLeve(leve);
                 c.setCostCount(cost);
-                c.setPhonenumber(phone);
-                c.setMailBox(mail);
                 result.addCustomer(c);
             }
             rs.close();
