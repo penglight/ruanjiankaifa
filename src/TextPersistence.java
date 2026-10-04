@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TextPersistence implements DataPersistence {   // ✅
+public class TextPersistence implements DataPersistence {
 
     private static final String FILE = "data.txt";
 

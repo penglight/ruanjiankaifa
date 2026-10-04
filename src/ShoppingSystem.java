@@ -403,7 +403,7 @@ public class ShoppingSystem {
         System.out.print("新密码: "); String pwd = sc.nextLine();
         admin.changePassword(pwd);
     }
-    // 文本
+
     private void loadData() {
         LoadResult result = persistence.load();
         if (result.hasData()) {
