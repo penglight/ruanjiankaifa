@@ -428,6 +428,9 @@ public class ShoppingSystem {
             productsList.clear();
             customerList.addAll(result.getCustomers());
             productsList.addAll(result.getProducts());
+            if (result.getAdmin() != null) {
+                admin = result.getAdmin();
+            }
             System.out.println("恢复: 顾客 " + customerList.size() + " 个, 商品 " + productsList.size() + " 个");
         }
     }
@@ -435,7 +438,7 @@ public class ShoppingSystem {
 
 
     private void saveData() {
-        persistence.save(customerList, productsList);
+        persistence.save(customerList, productsList,admin);
     }
 
 }

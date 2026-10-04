@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Administrator extends User {
+public class Administrator extends User implements Serializable{
 
     private boolean firstLogin = true;
 
