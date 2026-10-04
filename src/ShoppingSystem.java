@@ -31,10 +31,24 @@ public class ShoppingSystem {
                 return choice;
             } else {
                 System.out.println("请输入数字！");
-                sc.nextLine();   // 清掉错误输入
+                sc.nextLine();
             }
         }
     }
+    private double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextDouble()) {
+                double value = sc.nextDouble();
+                sc.nextLine();
+                return value;
+            } else {
+                System.out.println("输入有误，请输入数字！");
+                sc.nextLine();
+            }
+        }
+    }
+
 
 
     // ==================== 程序入口 ====================
@@ -357,9 +371,11 @@ public class ShoppingSystem {
         System.out.print("厂家: "); String mf = sc.nextLine();
         System.out.print("生产日期: "); String date = sc.nextLine();
         System.out.print("型号: "); String model = sc.nextLine();
-        System.out.print("进货价: "); double pc = sc.nextDouble(); sc.nextLine();
-        System.out.print("零售价: "); double rp = sc.nextDouble(); sc.nextLine();
-        System.out.print("库存: "); int stock = sc.nextInt(); sc.nextLine();
+        double pc = readDouble("进货价: ");
+        double rp = readDouble("零售价: ");
+        int stock = readInt("库存: ");
+
+
 
         admin.addProduct(this, new Product(id, name, mf, date, model, pc, rp, stock));
     }
@@ -371,9 +387,10 @@ public class ShoppingSystem {
         System.out.print("新厂家: "); String mf = sc.nextLine();
         System.out.print("新生产日期: "); String date = sc.nextLine();
         System.out.print("新型号: "); String model = sc.nextLine();
-        System.out.print("新进货价: "); double pc = sc.nextDouble(); sc.nextLine();
-        System.out.print("新零售价: "); double rp = sc.nextDouble(); sc.nextLine();
-        System.out.print("新库存: "); int stock = sc.nextInt(); sc.nextLine();
+        double pc = readDouble("新进货价: ");
+        double rp = readDouble("新零售价: ");
+        int stock = readInt("新库存: ");
+
 
         admin.updateProduct(this, oldId, new Product(id, name, mf, date, model, pc, rp, stock));
     }
