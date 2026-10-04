@@ -9,7 +9,7 @@ public class ExcelPersistence implements DataPersistence {
 
     // ===== 存：把两个列表写进 Excel，两个 Sheet =====
     @Override
-    public void save(ArrayList<Customer> customers, ArrayList<Product> products) {
+    public void save(ArrayList<Customer> customers, ArrayList<Product> products, Administrator admin) {
         try {
             Workbook wb = new XSSFWorkbook();
 

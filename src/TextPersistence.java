@@ -10,7 +10,7 @@ public class TextPersistence implements DataPersistence {
     private static final String FILE = "data.txt";
 
 
-    public void save(ArrayList<Customer> customers, ArrayList<Product> products) {
+    public void save(ArrayList<Customer> customers, ArrayList<Product> products, Administrator admin) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(FILE));
 
