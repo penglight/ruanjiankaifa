@@ -38,7 +38,7 @@ public class SQLitePersistence implements DataPersistence {
 
     // ===== 存：清空表再插入 =====
     @Override
-    public void save(ArrayList<Customer> customers, ArrayList<Product> products) {
+    public void save(ArrayList<Customer> customers, ArrayList<Product> products,Administrator admin) {
         try (Connection conn = DriverManager.getConnection(DB_URL)) {
 
             // 先清空两张表

@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Administrator extends User {
+public class Administrator extends User implements Serializable{
 
     private boolean firstLogin = true;
 
     public Administrator() {
         super("admin", "ynuinfo#777");
+        firstLogin = true;
     }
 
     @Override
@@ -41,6 +43,10 @@ public class Administrator extends User {
     public boolean isFirstLogin() {
         return firstLogin;
     }
+    public void setFirstLogin(boolean firstLogin) {
+        this.firstLogin = firstLogin;
+    }
+
 
 
     public boolean forceChangeCredentials(String newUsername, String newPassword) {

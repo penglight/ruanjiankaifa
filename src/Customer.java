@@ -27,6 +27,15 @@ public class Customer extends User implements Serializable {
         this.orders = new ArrayList<>();
     }
 
+    public Customer() {
+        super("", "");
+        this.cart = new ShoppingCart();
+        this.orders = new ArrayList<>();
+        this.leve = "BRONZE";
+        this.totalSpent = 0;
+        this.costCount = 0;
+    }
+
 
     public Order checkout(String paymentMethod) {
         if (cart.isEmpty()) {

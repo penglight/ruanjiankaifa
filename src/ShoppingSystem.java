@@ -35,11 +35,24 @@ public class ShoppingSystem {
         }
     }
 
+    private double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextDouble()) {
+                double value = sc.nextDouble();
+                sc.nextLine();
+                return value;
+            } else {
+                System.out.println("输入有误，请输入数字！");
+                sc.nextLine();
+            }
+        }}
+
 
     // ==================== 程序入口 ====================
     public void run() {
-        loadData();        // 启动时读回数据
-        showMainMenu();    // 显示主菜单
+        loadData();
+        showMainMenu();
     }
 
 
@@ -402,7 +415,7 @@ public class ShoppingSystem {
         System.out.print("新密码: "); String pwd = sc.nextLine();
         admin.changePassword(pwd);
     }
-    // 文本
+
     private void loadData() {
         LoadResult result = persistence.load();
         if (result.hasData()) {
@@ -410,14 +423,23 @@ public class ShoppingSystem {
             productsList.clear();
             customerList.addAll(result.getCustomers());
             productsList.addAll(result.getProducts());
+            if (result.getAdmin() != null) {
+                admin = result.getAdmin();
+            }
             System.out.println("恢复: 顾客 " + customerList.size() + " 个, 商品 " + productsList.size() + " 个");
-        }
-    }
+        }}
+
 
 
 
     private void saveData() {
-        persistence.save(customerList, productsList);
-    }
+        persistence.save(customerList, productsList,admin);
+    }}
 
-}
+
+
+
+
+
+
+
