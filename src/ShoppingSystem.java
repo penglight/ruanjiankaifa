@@ -400,7 +400,7 @@ public class ShoppingSystem {
     private void findProductsMenu() {
         System.out.print("名称(回车跳过): "); String name = sc.nextLine();
         System.out.print("厂家(回车跳过): "); String mf = sc.nextLine();
-        System.out.print("最低价(0跳过): "); double min = sc.nextDouble(); sc.nextLine();
+        System.out.print("最低价(0跳过): "); double min =sc.nextDouble(); sc.nextLine();
         System.out.print("最高价(0跳过): "); double max = sc.nextDouble(); sc.nextLine();
 
         ArrayList<Product> result = admin.findProducts(this, name, mf, min, max);
