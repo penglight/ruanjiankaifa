@@ -7,7 +7,7 @@ public class ShoppingSystem {
 
     private Administrator admin = new Administrator();
     private Scanner sc = new Scanner(System.in);
-    private ExcelPersistence persistence = new ExcelPersistence(); //SQLitePersistence v4
+    private SQLitePersistence persistence = new SQLitePersistence();
 
 
     public ShoppingSystem() {
