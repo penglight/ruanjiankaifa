@@ -7,13 +7,13 @@ import java.util.ArrayList;
 public class ExcelPersistence implements DataPersistence {
     private static final String FILE = "data.xlsx";
 
-    // ===== 存：把两个列表写进 Excel，两个 Sheet =====
+
     @Override
     public void save(ArrayList<Customer> customers, ArrayList<Product> products,Administrator admin) {
         try {
             Workbook wb = new XSSFWorkbook();
 
-            // --- 第一个 Sheet：商品 ---
+
             Sheet pSheet = wb.createSheet("商品");
             Row pHeader = pSheet.createRow(0);
             String[] pCols = {"商品ID", "名称", "厂家", "生产日期", "型号", "进货价", "零售价", "库存"};
@@ -33,7 +33,7 @@ public class ExcelPersistence implements DataPersistence {
                 row.createCell(7).setCellValue(p.getStock());
             }
 
-            // --- 第二个 Sheet：顾客 ---
+
             Sheet cSheet = wb.createSheet("顾客");
             Row cHeader = cSheet.createRow(0);
             String[] cCols = {"顾客ID", "用户名", "密码(加密)", "等级", "注册时间", "消费次数", "手机号", "邮箱"};
@@ -53,6 +53,18 @@ public class ExcelPersistence implements DataPersistence {
                 row.createCell(7).setCellValue(c.getMailBox());
             }
 
+
+            Sheet aSheet = wb.createSheet("管理员");
+            Row aHeader = aSheet.createRow(0);
+            aHeader.createCell(0).setCellValue("用户名");
+            aHeader.createCell(1).setCellValue("密码(加密)");
+            aHeader.createCell(2).setCellValue("是否首次登录");
+            Row aRow = aSheet.createRow(1);
+            aRow.createCell(0).setCellValue(admin.getUsername());
+            aRow.createCell(1).setCellValue(PasswordUtil.encrypt(admin.getPassword()));
+            aRow.createCell(2).setCellValue(admin.isFirstLogin() ? "true" : "false");
+
+
             FileOutputStream out = new FileOutputStream(FILE);
             wb.write(out);
             out.close();
@@ -63,7 +75,7 @@ public class ExcelPersistence implements DataPersistence {
         }
     }
 
-    // ===== 取：从 Excel 读回数据 =====
+
     @Override
     public LoadResult load() {
         LoadResult result = new LoadResult();
@@ -73,7 +85,7 @@ public class ExcelPersistence implements DataPersistence {
         try {
             Workbook wb = new XSSFWorkbook(new FileInputStream(FILE));
 
-            // --- 读商品 Sheet ---
+
             Sheet pSheet = wb.getSheet("商品");
             if (pSheet != null) {
                 for (int i = 1; i <= pSheet.getLastRowNum(); i++) {
@@ -91,7 +103,7 @@ public class ExcelPersistence implements DataPersistence {
                 }
             }
 
-            // --- 读顾客 Sheet ---
+
             Sheet cSheet = wb.getSheet("顾客");
             if (cSheet != null) {
                 for (int i = 1; i <= cSheet.getLastRowNum(); i++) {
@@ -106,11 +118,23 @@ public class ExcelPersistence implements DataPersistence {
                     String phone = row.getCell(6).getStringCellValue();
                     String mail = row.getCell(7).getStringCellValue();
 
-
                     Customer c = new Customer(id, name, pwd,time,phone,mail);
                     c.setLeve(leve);
                     c.setCostCount(cost);
                     result.addCustomer(c);
+                }
+            }
+
+
+            Sheet aSheet = wb.getSheet("管理员");
+            if (aSheet != null && aSheet.getLastRowNum() >= 1) {
+                Row row = aSheet.getRow(1);
+                if (row != null) {
+                    Administrator a = new Administrator();
+                    a.setUsername(row.getCell(0).getStringCellValue());
+                    a.setPassword(PasswordUtil.decrypt(row.getCell(1).getStringCellValue()));
+                    a.setFirstLogin(row.getCell(2).getStringCellValue().equals("true"));
+                    result.setAdmin(a);
                 }
             }
 
