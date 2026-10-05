@@ -238,8 +238,7 @@ public class ShoppingSystem {
             } else if (choice == 2) {
                 System.out.print("请输入商品ID: ");
                 String pid = sc.nextLine();
-                System.out.print("请输入数量: ");
-                int qty = sc.nextInt();
+                int qty = readInt("请输入商品数量: ");
                 sc.nextLine();
                 Product prod = findProduct(pid);
                 if (prod != null) {
@@ -252,8 +251,7 @@ public class ShoppingSystem {
             } else if (choice == 4) {
                 System.out.print("商品ID: ");
                 String pid = sc.nextLine();
-                System.out.print("新数量: ");
-                int qty = sc.nextInt();
+                int qty = readInt("新数量: ");
                 sc.nextLine();
                 cur.getCart().updateQuantity(pid, qty);
             } else if (choice == 5) {
@@ -286,8 +284,7 @@ public class ShoppingSystem {
     }
 
     private void checkoutMenu(Customer cur) {
-        System.out.println("请选择支付方式: 1.支付宝 2.微信 3.银行卡");
-        int pay = sc.nextInt();
+        int pay = readInt("请选择支付方式: 1.支付宝 2.微信 3.银行卡");
         sc.nextLine();
         String method = (pay == 1) ? "支付宝" : (pay == 2) ? "微信" : "银行卡";
         cur.checkout(method);
