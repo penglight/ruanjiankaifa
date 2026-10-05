@@ -11,6 +11,13 @@ public class ExcelPersistence implements DataPersistence {
     @Override
     public void save(ArrayList<Customer> customers, ArrayList<Product> products,Administrator admin) {
         try {
+
+                System.out.println(">>> compress实际加载自: "
+                        + org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream.class
+                        .getProtectionDomain().getCodeSource().getLocation());
+
+
+
             Workbook wb = new XSSFWorkbook();
 
 
@@ -80,7 +87,8 @@ public class ExcelPersistence implements DataPersistence {
     public LoadResult load() {
         LoadResult result = new LoadResult();
         File f = new File(FILE);
-        if (!f.exists()) return result;
+        if (!f.exists() || f.length() == 0) return result;
+
 
         try {
             Workbook wb = new XSSFWorkbook(new FileInputStream(FILE));
